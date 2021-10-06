@@ -1,21 +1,20 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"link-parser"
-	"strings"
+	"log"
+	"os"
 )
 
-var html = `
-<html>
-<body>
-  <a href="/dog-cat">dog cat <!-- commented text SHOULD NOT be included! --></a>
-</body>
-</html>
-`
-
 func main() {
-	r := strings.NewReader(html)
+	fptr := flag.String("htmltag", "index.html", "file path to read from")
+	flag.Parse()
+	r, err := os.Open(*fptr)
+	if err != nil {
+		log.Fatal(err)
+	}
 	links, err := link.Parse(r)
 	if err != nil {
 		panic(err)
