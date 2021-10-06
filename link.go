@@ -28,20 +28,17 @@ func Parse(r io.Reader) ([]Link, error) {
 			currentText += dfs(c, isParentLink)
 		}
 		if n.Type == html.ElementNode && n.Data == "a" {
-			len := len(n.Attr)
-			for i := 0; i < len; i++ {
-				if n.Attr[i].Key == "href" {
-					var link Link
-					link.Href = n.Attr[i].Val
-					link.Text = currentText
+			for _, attr := range n.Attr {
+				if attr.Key == "href" {
+					link := Link{attr.Val, currentText}
 					allLinks = append(allLinks, link)
 				}
 			}
 		}
 		if n.Type == html.TextNode {
-			currentText += strings.Fields(n.Data)
+			currentText += n.Data
 		}
-		return currentText
+		return strings.Join(strings.Fields(currentText), " ")
 	}
 	dfs(doc, false)
 	return allLinks, nil

@@ -19,8 +19,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	len := len(links)
-	for i := 0; i < len; i++ {
-		fmt.Printf("Href: %v\nText: %v\n", links[i].Href, links[i].Text)
+	for _, link := range links {
+		fmt.Printf("Href: %v\nText: %v\n", link.Href, link.Text)
 	}
 }
