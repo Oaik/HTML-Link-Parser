@@ -2,6 +2,7 @@ package link
 
 import (
 	"io"
+	"strings"
 
 	"golang.org/x/net/html"
 )
@@ -38,7 +39,7 @@ func Parse(r io.Reader) ([]Link, error) {
 			}
 		}
 		if n.Type == html.TextNode {
-			currentText += n.Data
+			currentText += strings.Fields(n.Data)
 		}
 		return currentText
 	}
